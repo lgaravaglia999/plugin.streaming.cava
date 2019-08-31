@@ -15,6 +15,7 @@ def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
     :param keyword: str, optional represent user keyboard input
     """
     is_folder = True
+    page = int(page)
     for media in results:
         item_url = {
             'mode': media_type,
@@ -38,13 +39,16 @@ def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
         kodiutilsitem.add_item(url_dict=item_url, title=item_title, is_folder=is_folder,
                 info=item_info, arts=item_arts)
         
-
-    kodiutilsitem.add_menu_item({
-        'mode' : 'next',
-        'page': page+1,
-        'media_type' : media_type,
-        'tmdb_type': tmdb_type,
-        'keyword': keyword
-        }, NEXT_PAGE)
+    if keyword is not None:
+        kodiutilsitem.add_menu_item({
+            'mode' : tmdb_type,
+            '0': page+1,
+            '1': keyword
+            }, NEXT_PAGE)
+    else:
+        kodiutilsitem.add_menu_item({
+            'mode' : tmdb_type,
+            '0': page+1,
+            }, NEXT_PAGE)
 
     kodiutilsitem.end_directory()
