@@ -1,5 +1,5 @@
 from resources.lib.views import TmdbView
-from resources.lib.MovieDb import MovieDb
+from resources.lib.models.tmdb.MovieDb import MovieDb
 from resources.lib import kodiutilsitem
 
 tmdb = MovieDb()

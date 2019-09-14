@@ -3,7 +3,7 @@ import requests
 import sys
 
 from resources.lib import scraper_lib
-from resources.lib.scraper.FPTScraper import FPTScraper
+from resources.lib.models.filmpertutti.FPTScraper import FPTScraper
 
 
 class TvSeries(FPTScraper):
@@ -45,7 +45,6 @@ class TvSeries(FPTScraper):
             url = scraper_lib.Element(block=episode_wrapper, el_tag='a',
                 el_class="myBtn", el_property="data-link")
             try:
-                #main link(speedvideo)
                 episode_name = name.get_element()
                 episode_url = url.get_element()
                 episode_urls.append(episode_url)

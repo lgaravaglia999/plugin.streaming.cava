@@ -1,5 +1,5 @@
 from resources.lib.views import TvshowView
-from resources.lib.scraper.TvSeries import TvSeries
+from resources.lib.models.filmpertutti.TvSeries import TvSeries
 from resources.lib import kodiutilsitem
 
 def fpt_tvshow(title):

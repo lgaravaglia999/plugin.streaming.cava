@@ -1,3 +1,5 @@
+import os
+import importlib
 import sys
 import urlparse
 import xbmc
@@ -5,16 +7,19 @@ from resources.lib.controllers import TmdbController, MovieController, MainContr
 from resources.lib import kodiutilsitem 
 
 def route(urls, mode, kwargs):
+	"""
+    Handle the routing process.
+
+    :param urls: list of dictionaries with all mapped urls {url: function_to_call}
+    :param mode: str representing selected url
+	:param kwargs: arguments to pass on the function_to_call
+    """
+
 	xbmc.log("#######################################################", xbmc.LOGNOTICE)
-	if mode is not None:
-		xbmc.log("Clicked : [" + ''.join(mode) + "] item", xbmc.LOGNOTICE)
-	"""
-	in questo modo chiamo il controller che gli ho assegnato
-	passandogli pure gli eventuali parametri richiesti
-	"""
 	if mode is None:
 		kodiutilsitem.create_menu()
 	else:
+		xbmc.log("Clicked : [" + ''.join(mode) + "] item", xbmc.LOGNOTICE)
 		for url_dict in urls:
 			if mode in url_dict:
 				xbmc.log("Parameters: " + ' ,'.join(a for a in kwargs), xbmc.LOGNOTICE)
@@ -25,48 +30,51 @@ def route(urls, mode, kwargs):
 
 
 
+def get_all_module_routers():
+	"""
+	Get all mapped url list from all _router.py files into the router_urls folder.
+	"""
+
+	c_path = os.path.dirname(os.path.abspath(__file__)) + '/resources/lib/router_urls'
+	router_urls = []
+	for p_file in os.listdir(c_path):
+		if p_file.endswith("_router.py"):
+			router_name = 'resources.lib.router_urls.' + p_file.split('.')[0]
+			router_urls.extend(importlib.import_module(router_name).URLS)
+
+	xbmc.log(', '.join(str(url) for url in router_urls), xbmc.LOGNOTICE)
+	return router_urls
 
 
 if __name__ == '__main__':
-	"""
-	TODO: TROVARE UN MODO PER GESTIRE LO SCAMBIO DEI VALORI (args e addon_handler)
-	"""
-	
 	base_url = sys.argv[0]
 	addon_handle = int(sys.argv[1])
+
+	"""
+	List of dictionary with all arguments of previous item
+	this way i can pass all values i want from view to view.
+	"""
 	args = urlparse.parse_qs(sys.argv[2][1:])
+
+	#url of next action
 	mode = args.get('mode', None)
- 	#prende tutti i valori degli argomenti eccetto il mode
-	kwargs = [args[arg][0] for arg in args if arg != 'mode']
-	for x in args:
-		if x != 'mode':
-			indx = int(x)
-			kwargs[indx] = args[x][0]
 
-	URL_LIST = [
-		#on menu item click
-		{'menu/fpt/keyword': MovieController.fpt_exact_name},
-		{'menu/movies/keyword': TmdbController.movie_by_keyword},
-		{'menu/movies/most_popular': TmdbController.most_popular_movies},
-		{'menu/movies/most_voted': TmdbController.most_voted_movies},
-		{'menu/movies/now_playing': TmdbController.now_playing_movies},
-		{'menu/tvshow/keyword': TmdbController.tvshow_by_keyword},
-		{'menu/tvshow/most_popular': TmdbController.most_popular_tvshow},
-		{'menu/tvshow/most_voted': TmdbController.most_voted_tvshow},
-		{'menu/tvshow/on_air': TmdbController.on_air_tvshow},
+	"""
+ 	In order to call dynamically the right controller with its parameters i have to get
+	all arguments except the mode one to pass them on the controller.
+	
+	Arguments aren't sorted so i made a workaround by setting the argument's key as a number,
+	this way i can order them into a list using the key as index.
+	"""
 
-		#movies
-		{'tmdb_movie': MovieController.fpt_movie},
-		{'movies/fpt_movie': MovieController.movie_streaming_options},
+	kwargs = [args[arg_key][0] for arg_key in args if arg_key != 'mode']
+	for arg_key in args:
+		if arg_key != 'mode':
+			indx = int(arg_key)
+			kwargs[indx] = args[arg_key][0]
 
-		#tvshow
-		{'tmdb_tvshow': TvShowController.fpt_tvshow},
-		{'tvshow/fpt_tv': TvShowController.fpt_seasons},
-		{'tvshow/selected_season': TvShowController.fpt_episodes},
-		{'tvshow/selected_episode': TvShowController.fpt_episodes_streaming_options},
+	URL_LIST = get_all_module_routers()
 
-		{'play': MainController.play}
-	]
 	if mode is not None:
 		route(URL_LIST, mode[0], kwargs)
 	else:

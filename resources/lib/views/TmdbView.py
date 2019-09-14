@@ -1,8 +1,8 @@
 from resources.lib import kodiutilsitem
-from resources.lib import MovieDb
+from resources.lib.models.tmdb.MovieDb import MovieDb
 
 NEXT_PAGE = "Next Page --->"
-tmdb = MovieDb.MovieDb()
+tmdb = MovieDb()
 
 def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
     """
