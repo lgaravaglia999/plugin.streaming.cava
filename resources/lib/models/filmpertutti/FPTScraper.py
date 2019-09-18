@@ -42,26 +42,30 @@ class FPTScraper(object):
 
     def get_fpt_posts(self, keyword):
         #returns url of page to scrape (returns first record if many)
-        posts_list = []
-        key_search = keyword.replace(" ", "+")
-        url_search = self.filmpertutti_url.format(self.domain, key_search)
+        try:
+            posts_list = []
+            key_search = keyword.replace(" ", "+")
+            url_search = self.filmpertutti_url.format(self.domain, key_search)
 
-        soup = scraper_lib.get_page_soup(url_search)
+            soup = scraper_lib.get_page_soup(url_search)
 
-        container = scraper_lib.Container(block=soup, tag='ul',
-            first=True, container_class="posts").get_container()
+            container = scraper_lib.Container(block=soup, tag='ul',
+                first=True, container_class="posts").get_container()
 
-        posts = scraper_lib.Container(block=container, tag='li').get_container()
+            posts = scraper_lib.Container(block=container, tag='li').get_container()
 
-        for post in posts:
-            posts_list.append(self.get_post_info(post))
-        
-        return posts_list
+            for post in posts:
+                posts_list.append(self.get_post_info(post))      
+
+            return posts_list            
+        except:
+            return None
 
     def filter_streamings(self, href):
         return href and any(s in href for s in self.streaming_to_scrape)
 
     def get_by_exact_name(self, keyword):
-        title = keyword.replace(' ', '-')
+        title = keyword.replace("'", "")
+        title = title.replace(' ', '-')
         fpt_direct_url = self.domain + "/" + title
         return fpt_direct_url
