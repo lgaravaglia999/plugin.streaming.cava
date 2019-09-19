@@ -75,7 +75,7 @@ class MovieDb:
 
         return self._get_tv_result(tmdb_url)
 
-    def get_most_voted_tvseries(self, keyword, page=1):
+    def get_most_voted_tvseries(self, page=1):
         tmdb_url = self.MOST_VOTED_TV_URL.format(
                 self.API_URL,
                 self.COMMON_SETTINGS,
@@ -83,7 +83,7 @@ class MovieDb:
 
         return self._get_tv_result(tmdb_url)
 
-    def get_most_popular_tvseries(self, keyword, page=1):
+    def get_most_popular_tvseries(self, page=1):
         tmdb_url = self.MOST_POPULAR_TV_URL.format(
                 self.API_URL,
                 self.COMMON_SETTINGS,
@@ -91,7 +91,7 @@ class MovieDb:
 
         return self._get_tv_result(tmdb_url)
 
-    def get_on_air_tvseries(self, keyword, page=1):
+    def get_on_air_tvseries(self, page=1):
         tmdb_url = self.ON_AIR_TV_URL.format(
                 self.API_URL,
                 self.COMMON_SETTINGS,
@@ -120,7 +120,7 @@ class MovieDb:
                 lambda x: {
                         "titolo":x["name"],
                         "trama":x["overview"],
-                        "anno":x["first_air_date"].split('-')[0],
+                        "anno":x.get("first_air_date", '-').split('-')[0],
                         "genere":x["genre_ids"],
                         "poster":x["poster_path"]
                         },
