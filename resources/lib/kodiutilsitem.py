@@ -47,6 +47,7 @@ def get_streaming_source_name(url):
     return "n.d."
 
 def create_menu():
+    add_menu_item({'mode' : 'menu/people/keyword'}, 'Cerca per attore/cast ')
     add_menu_item({'mode' : 'menu/fpt/keyword'}, 'Cerca titolo ESATTO')
     add_menu_item({'mode' : 'menu/movies/keyword'}, 'Cerca Film')
     add_menu_item({'mode' : 'menu/movies/most_popular'}, 'Cerca tra i film piu popolari')

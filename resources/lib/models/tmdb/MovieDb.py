@@ -31,6 +31,12 @@ class MovieDb:
         self.MOST_POPULAR_TV_URL = "{0}/tv/popular?{1}&page={2}"
         self.SEARCH_TV_URL = "{0}/search/tv?{1}&page={2}&query={3}"
 
+        """
+        People urls
+        """
+        self.SEARCH_PEOPLE_URL = "{0}/search/person?{1}&page={2}&query={3}"
+        self.PEOPLE_MOVIES_URL = "{0}/person/{1}/movie_credits?{2}"
+
         self.MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w{0}/{1}"
 
     def search_moviesdb(self, keyword, page=1):
@@ -90,14 +96,53 @@ class MovieDb:
                 page)
 
         return self._get_tv_result(tmdb_url)
-
+		
     def get_on_air_tvseries(self, page=1):
         tmdb_url = self.ON_AIR_TV_URL.format(
                 self.API_URL,
                 self.COMMON_SETTINGS,
                 page)
-
         return self._get_tv_result(tmdb_url)
+
+    def search_people(self, keyword, page=1):
+        tmdb_url = self.SEARCH_PEOPLE_URL.format(
+            self.API_URL,
+            self.COMMON_SETTINGS,
+            page,
+            keyword)
+        return self.__get_people_result(tmdb_url)
+
+    def get_people_movies(self, people_id):
+        tmdb_url = self.PEOPLE_MOVIES_URL.format(
+            self.API_URL,
+            people_id,
+            self.COMMON_SETTINGS)
+        
+        return self._get_people_movie_result(tmdb_url)
+
+    def __get_people_result(self, tmdb_url):
+        result = requests.get(tmdb_url).json()
+
+        return list(map(
+                lambda x: {
+                        "nome":x["name"],
+                        "people_id":x["id"],
+                        "poster":x["profile_path"]
+                        },
+                        result['results']))
+    
+    def _get_people_movie_result(self, tmdb_url):
+        result = requests.get(tmdb_url).json()
+
+        return list(map(
+                lambda x: {
+                        "titolo":x["title"],
+                        "trama":x["overview"],
+                        "anno":x["release_date"].split('-')[0],
+                        "genere":x["genre_ids"],
+                        "poster":x["poster_path"]
+                        },
+                        result['cast']))
 
     def _get_movie_result(self, tmdb_url):
         result = requests.get(tmdb_url).json()
