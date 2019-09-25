@@ -138,7 +138,7 @@ class MovieDb:
                 lambda x: {
                         "titolo":x["title"],
                         "trama":x["overview"],
-                        "anno":x["release_date"].split('-')[0],
+                        "anno":x.get("release_date", '-').split('-')[0],
                         "genere":x["genre_ids"],
                         "poster":x["poster_path"]
                         },
