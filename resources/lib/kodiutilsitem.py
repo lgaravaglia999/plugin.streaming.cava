@@ -46,20 +46,6 @@ def get_streaming_source_name(url):
             return source
     return "n.d."
 
-def create_menu():
-    add_menu_item({'mode' : 'menu/people/keyword'}, 'Cerca per attore/cast ')
-    add_menu_item({'mode' : 'menu/fpt/keyword'}, 'Cerca titolo ESATTO')
-    add_menu_item({'mode' : 'menu/movies/keyword'}, 'Cerca Film')
-    add_menu_item({'mode' : 'menu/movies/most_popular'}, 'Cerca tra i film piu popolari')
-    add_menu_item({'mode' : 'menu/movies/most_voted'}, 'Cerca tra i film piu votati')
-    add_menu_item({'mode' : 'menu/movies/now_playing'}, 'Cerca tra i film in onda al cinema')
-    add_menu_item({'mode' : 'menu/tvshow/keyword'}, 'Cerca Serie Tv')
-    add_menu_item({'mode' : 'menu/tvshow/most_popular'}, 'Cerca tra le Serie Tv piu popolari')
-    add_menu_item({'mode' : 'menu/tvshow/most_voted'}, 'Cerca tra le Serie Tv piu votate')
-    add_menu_item({'mode' : 'menu/tvshow/on_air'}, 'Cerca tra Serie Tv ancora in corso')
-    
-    end_directory()
-
 def user_input():
     kb = xbmc.Keyboard('default', 'heading')
     kb.setDefault('')

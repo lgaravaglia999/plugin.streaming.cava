@@ -10,14 +10,14 @@ def route(urls, mode, kwargs):
 	"""
     Handle the routing process.
 
-    :param urls: list of dictionaries with all mapped urls {url: function_to_call}
-    :param mode: str representing selected url
+    :param urls: list of dictionaries with all mapped urls {mode: function_to_call}
+    :param mode: str representing the url of clicked item
 	:param kwargs: arguments to pass on the function_to_call
     """
 
 	xbmc.log("#######################################################", xbmc.LOGNOTICE)
 	if mode is None:
-		kodiutilsitem.create_menu()
+		create_menu()
 	else:
 		xbmc.log("Clicked : [" + ''.join(mode) + "] item", xbmc.LOGNOTICE)
 		for url_dict in urls:
@@ -29,6 +29,18 @@ def route(urls, mode, kwargs):
 	xbmc.log("#######################################################", xbmc.LOGNOTICE)
 
 
+def create_menu():
+	kodiutilsitem.add_menu_item({'mode' : 'menu/people/keyword'}, 'Cerca per attore/cast ')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/fpt/keyword'}, 'Cerca titolo ESATTO')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/keyword'}, 'Cerca Film')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/most_popular'}, 'Cerca tra i film piu popolari')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/most_voted'}, 'Cerca tra i film piu votati')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/now_playing'}, 'Cerca tra i film in onda al cinema')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/keyword'}, 'Cerca Serie Tv')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/most_popular'}, 'Cerca tra le Serie Tv piu popolari')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/most_voted'}, 'Cerca tra le Serie Tv piu votate')
+	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/on_air'}, 'Cerca tra Serie Tv ancora in corso')
+	kodiutilsitem.end_directory()
 
 def get_all_module_routers():
 	"""
@@ -55,8 +67,6 @@ if __name__ == '__main__':
 	this way i can pass all values i want from view to view.
 	"""
 	args = urlparse.parse_qs(sys.argv[2][1:])
-
-	#url of next action
 	mode = args.get('mode', None)
 
 	"""

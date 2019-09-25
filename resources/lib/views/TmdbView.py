@@ -9,8 +9,8 @@ def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
     Show movies or tv shows got from the themoviedb api request.
     
     :param results: list of dictionaries representing themoviedb api request's results
-    :param media_type: str represent movie, tv show or people/cast type
-    :param tmdb_type: str represent routing url
+    :param media_type: str represent movie or tv show type (used for routing)
+    :param tmdb_type: str represent mode for paginations
     :param page: int
     :param keyword: str, optional represent user keyboard input
     """
@@ -60,7 +60,7 @@ def show_moviedb_cast_results(results, media_type, tmdb_type, page=1, keyword=No
     
     :param results: list of dictionaries representing themoviedb api request's results
     :param media_type: str
-    :param tmdb_type: str represent routing url
+    :param tmdb_type: str represent routing url for paginations
     :param page: int
     :param keyword: str, optional represent user keyboard input
     """
@@ -69,7 +69,8 @@ def show_moviedb_cast_results(results, media_type, tmdb_type, page=1, keyword=No
     for media in results:
         item_url = {
             'mode': media_type,
-            '0': media["people_id"]
+            '0': 0,
+            '1': media["people_id"]
             #'year': media["anno"],
             }
         
