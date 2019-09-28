@@ -6,6 +6,11 @@ tmdb = MovieDb()
 TV_MEDIA_TYPE = 'tmdb_tvshow'
 MOVIE_MEDIA_TYPE = 'tmdb_movie'
 PEOPLE_MEDIA_TYPE = "menu/people/movies"
+GENRE_MEDIA_TYPE = "menu/genres/movies"
+
+def genres_list():
+	results = tmdb.get_movie_genres_list()
+	TmdbView.show_movie_genres_list(results, GENRE_MEDIA_TYPE)
 
 def people_by_keyword(page=1, keyword=None):
 	if keyword is None:
@@ -27,28 +32,17 @@ def movie_by_keyword(page=1, keyword=None):
 
 	TmdbView.show_moviedb_results(results, MOVIE_MEDIA_TYPE, 'menu/movies/keyword', page, keyword)
 
-def movie_by_people(page=0, people_id=1):
-	i_page = int(page)
+def movie_by_people(page=1, people_id=1):
 	tmdb_type = 'menu/people/movies'
-	results = tmdb.get_people_movies(int(people_id))
-	
-	"""
-	pagination just to not render all movies images in a row
-	"""
-	max_results_per_page = 10
-	n_pages = len(results) // max_results_per_page
+	results = tmdb.get_people_movies(int(people_id), int(page))
 
-	if i_page > n_pages:
-		return
+	TmdbView.show_moviedb_results(results, MOVIE_MEDIA_TYPE, tmdb_type, page, people_id)
 
-	start_index = max_results_per_page * i_page
-	end_index = start_index + max_results_per_page
-	if end_index > len(results):
-		end_index = len(results)
+def movie_by_genre(page=1, genre_id=1):
+	tmdb_type = 'menu/genres/movies'
+	results = tmdb.get_movies_by_genre(int(genre_id), int(page))
 
-	paginated_result = results[start_index: end_index]
-
-	TmdbView.show_moviedb_results(paginated_result, MOVIE_MEDIA_TYPE, tmdb_type, page, people_id)
+	TmdbView.show_moviedb_results(results, MOVIE_MEDIA_TYPE, tmdb_type, page, genre_id)
 
 def most_popular_movies(page=1):
 	tmdb_type = 'menu/movies/most_popular'

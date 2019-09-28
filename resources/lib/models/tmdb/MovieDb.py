@@ -14,6 +14,12 @@ class MovieDb:
                 self.REGION
         )
 
+        self.DISCOVER_MOVIE_COMMON = "{0}/discover/movie?api_key={1}&language={2}&sort_by=popularity.desc".format(
+            self.API_URL,
+            self.MOVIEDB_API_KEY,
+            self.LANGUAGE,
+        )
+
         """
         Movie urls
         """
@@ -35,7 +41,14 @@ class MovieDb:
         People urls
         """
         self.SEARCH_PEOPLE_URL = "{0}/search/person?{1}&page={2}&query={3}"
-        self.PEOPLE_MOVIES_URL = "{0}/person/{1}/movie_credits?{2}"
+        self.PEOPLE_MOVIES_URL = "{0}&page={1}&with_people={2}"
+
+        """
+        Genres urls
+        """
+        self.GENRE_LIST_URL = "{0}/genre/movie/list?api_key={1}&language={2}"
+        self.MOVIE_BY_GENRE = "{0}&page={1}&with_genres={2}"
+
 
         self.MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w{0}/{1}"
 
@@ -112,13 +125,39 @@ class MovieDb:
             keyword)
         return self.__get_people_result(tmdb_url)
 
-    def get_people_movies(self, people_id):
+    def get_people_movies(self, people_id, page=1):
         tmdb_url = self.PEOPLE_MOVIES_URL.format(
-            self.API_URL,
-            people_id,
-            self.COMMON_SETTINGS)
+            self.DISCOVER_MOVIE_COMMON,
+            page,
+            people_id)
         
-        return self._get_people_movie_result(tmdb_url)
+        return self._get_movie_result(tmdb_url)
+    
+    def get_movie_genres_list(self):
+        tmdb_url = self.GENRE_LIST_URL.format(
+            self.API_URL,
+            self.MOVIEDB_API_KEY,
+            self.LANGUAGE)
+        
+        return self.__get_genres_result(tmdb_url)
+    
+    def get_movies_by_genre(self, genre_id, page=1):
+        tmdb_url = self.MOVIE_BY_GENRE.format(
+            self.DISCOVER_MOVIE_COMMON,
+            page,
+            genre_id)
+        
+        return self._get_movie_result(tmdb_url)
+
+    def __get_genres_result(self, tmdb_url):
+        result = requests.get(tmdb_url).json()
+
+        return list(map(
+                lambda x: {
+                        "nome":x["name"],
+                        "id":x["id"]
+                        },
+                        result['genres']))
 
     def __get_people_result(self, tmdb_url):
         result = requests.get(tmdb_url).json()
@@ -131,18 +170,6 @@ class MovieDb:
                         },
                         result['results']))
     
-    def _get_people_movie_result(self, tmdb_url):
-        result = requests.get(tmdb_url).json()
-
-        return list(map(
-                lambda x: {
-                        "titolo":x["title"],
-                        "trama":x["overview"],
-                        "anno":x.get("release_date", '-').split('-')[0],
-                        "genere":x["genre_ids"],
-                        "poster":x["poster_path"]
-                        },
-                        result['cast']))
 
     def _get_movie_result(self, tmdb_url):
         result = requests.get(tmdb_url).json()
@@ -151,7 +178,7 @@ class MovieDb:
                 lambda x: {
                         "titolo":x["title"],
                         "trama":x["overview"],
-                        "anno":x["release_date"].split('-')[0],
+                        "anno":x.get("release_date", '-').split('-')[0],
                         "genere":x["genre_ids"],
                         "poster":x["poster_path"]
                         },

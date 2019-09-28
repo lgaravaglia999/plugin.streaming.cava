@@ -69,9 +69,8 @@ def show_moviedb_cast_results(results, media_type, tmdb_type, page=1, keyword=No
     for media in results:
         item_url = {
             'mode': media_type,
-            '0': 0,
+            '0': 1,
             '1': media["people_id"]
-            #'year': media["anno"],
             }
         
         item_title = media["nome"].encode("utf-8")
@@ -100,4 +99,28 @@ def show_moviedb_cast_results(results, media_type, tmdb_type, page=1, keyword=No
             '0': page+1,
             }, NEXT_PAGE)
 
+    kodiutilsitem.end_directory()
+
+def show_movie_genres_list(results, media_type):
+    """
+    Show genres list from the themoviedb api request.
+    
+    :param results: list of dictionaries representing themoviedb api request's results
+    :param media_type: str
+    """
+    is_folder = True
+    for media in results:
+        item_url = {
+            'mode': media_type,
+            '0': 1,
+            '1': media["id"]
+            }
+        
+        item_title = media["nome"].encode("utf-8")
+        
+        item_info = {'title': media["nome"].encode('utf-8')}
+        
+        kodiutilsitem.add_item(url_dict=item_url, title=item_title, is_folder=is_folder,
+                info=item_info)
+        
     kodiutilsitem.end_directory()

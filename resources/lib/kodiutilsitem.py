@@ -12,9 +12,12 @@ STREAMING_SOURCES = ["speedvideo", "openload", "rapidcrypt"]
 def build_url(query):
     return '{0}?{1}'.format(base_url, urlencode(query))
 
-def add_menu_item(url_dict, item_title, image='DefaultVideo.png'):
+def add_menu_item(url_dict, item_title, image=None):
     url = build_url(url_dict)
-    li = xbmcgui.ListItem(item_title, iconImage=image)
+    if image is not None:
+        li = xbmcgui.ListItem(item_title, iconImage=image)
+    else:
+        li = xbmcgui.ListItem(item_title)
 
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url,
                         listitem=li, isFolder=True)
