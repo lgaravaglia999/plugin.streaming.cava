@@ -1,5 +1,7 @@
 from os import path
 import sys
+from resources.lib.models.movie import Movie
+from resources.lib.models.tvShow import TvShow
 from resources.lib import scraper_lib
 
 class FPTScraper(object):
@@ -16,7 +18,6 @@ class FPTScraper(object):
         self.streaming_to_scrape = ["speedvideo", "openload", "rapidcrypt.net/open"]
 
     def get_filmpertutti_domain(self):
-        #check and return current domain
         try:
             soup = scraper_lib.get_page_soup(self.url_check_domain, timeout=5)
 
@@ -28,7 +29,7 @@ class FPTScraper(object):
         except:
             return self.default_domain
         
-    def get_post_info(self, fpt_post):
+    def get_post_info(self, fpt_post, media_type):
         post_title = scraper_lib.Element(block=fpt_post, el_tag="div",
             el_class="title", get_text=True).get_element()
         
@@ -38,10 +39,16 @@ class FPTScraper(object):
         image = scraper_lib.Element(block=fpt_post, el_tag="a",
             el_property="data-thumbnail").get_element()
 
-        return {"title": post_title, "url": post_ref_url, "image": image}
-
-    def get_fpt_posts(self, keyword):
-        #returns url of page to scrape (returns first record if many)
+        if media_type == "movie":
+            movie = Movie(title=post_title, page_url=post_ref_url)
+            movie.image_url = image
+            return movie
+        else:
+            tvshow = TvShow(title=post_title, page_url=post_ref_url)
+            tvshow.image_url = image
+            return tvshow
+                        
+    def get_fpt_posts(self, keyword, media_type):
         try:
             posts_list = []
             key_search = keyword.replace(" ", "+")
@@ -55,7 +62,7 @@ class FPTScraper(object):
             posts = scraper_lib.Container(block=container, tag='li').get_container()
 
             for post in posts:
-                posts_list.append(self.get_post_info(post))      
+                posts_list.append(self.get_post_info(post, media_type))      
 
             return posts_list            
         except:

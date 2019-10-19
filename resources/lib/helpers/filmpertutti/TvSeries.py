@@ -3,7 +3,9 @@ import requests
 import sys
 
 from resources.lib import scraper_lib
-from resources.lib.models.filmpertutti.FPTScraper import FPTScraper
+from resources.lib.models.season import Season
+from resources.lib.models.episode import Episode
+from resources.lib.helpers.filmpertutti.FPTScraper import FPTScraper
 
 
 class TvSeries(FPTScraper):
@@ -14,15 +16,12 @@ class TvSeries(FPTScraper):
         else:
             super().__init__(release_date)
 
-        self.seasons_title_list = []
+        self.seasons_lst = []
         self.is_modern_state = True
         self.replacing_chars = ["\n", ";", " "]
     
-    def __len__(self):
-        return len(self.seasons_title_list)
-
     def get_result_from_fpt(self, keyword):
-        return self.get_fpt_posts(keyword)
+        return self.get_fpt_posts(keyword, "tvshow")
     
     def scrape(self, fpt_tvshow_url):
         self.soup = scraper_lib.get_page_soup(fpt_tvshow_url)
@@ -33,7 +32,7 @@ class TvSeries(FPTScraper):
             word = word.replace(char_to_replace, '')
         return word.strip()
 
-    def get_episode_info(self, tag):
+    def get_episode_info(self, tag, episode_number):
         episode_urls = []
         if self.is_modern_state:
 
@@ -65,14 +64,14 @@ class TvSeries(FPTScraper):
             except:
                 episode_name = "nd"
 
-        return {episode_name: episode_urls}
+        episode = Episode(title=episode_name, urls=episode_urls, episode_no=episode_number)
+        return episode
 
-    def get_all_season_titles(self):
-        #return all seasons title
+    def get_all_seasons(self):
         if sys.version_info[0] < 3:
-            del self.seasons_title_list[:]
+            del self.seasons_lst[:]
         else:
-            self.seasons_title_list.clear()
+            self.seasons_lst.clear()
 
         if self.is_modern_state:
             season_container = scraper_lib.Container(block=self.seasons_wrapper,
@@ -86,11 +85,15 @@ class TvSeries(FPTScraper):
 
             title = scraper_lib.Element(block='', el_tag='span', get_text=True)
 
-        seasons = season_container.get_container()
+        seasons_block = season_container.get_container()
 
-        for season in seasons:
-            title.block = season
-            self.seasons_title_list.append(title.get_element())
+        for i, season_block in enumerate(seasons_block):
+            title.block = season_block
+            season_title = title.get_element()
+            season = Season(title=season_title, season_no=i)
+            self.seasons_lst.append(season)
+        
+        return self.seasons_lst
 
     def get_seasons_wrapper(self):
         #return the html tag which cointains all the seasons
@@ -114,23 +117,25 @@ class TvSeries(FPTScraper):
             episodes_wrapper = scraper_lib.Container(block=episode_wrapper, tag='div',
                     container_class='episode-wrap').get_container()
                             
-            for episode in episodes_wrapper:
-                episodes.append(self.get_episode_info(episode))
+            for i, episode in enumerate(episodes_wrapper):
+                episodes.append(self.get_episode_info(episode, i))
         else:
             #old version
             episodes_html = "{0}".format(episode_wrapper).split("<br/>")
-            for episode in episodes_html:
-                episodes.append(self.get_episode_info(episode.strip()))
+
+            for i, episode in enumerate(episodes_html):
+                episodes.append(self.get_episode_info(episode.strip(), i))
+
         return episodes
 
-    def get_season_by_number(self, season_no):
+    def get_episodes_by_season_number(self, season_no):
         #return all episodes of that season
-        self.get_all_season_titles()
-        if len(self.seasons_title_list) > 0:
+        self.get_all_seasons()
+        if len(self.seasons_lst) > 0:
             try:
-                season_title = self.seasons_title_list[season_no]
+                season_obj = self.seasons_lst[season_no]
             except IndexError:
-                season_title = self.seasons_title_list[-1]
+                season_obj = self.seasons_lst[-1]
 
             if self.is_modern_state:
                 #new version config
@@ -157,7 +162,7 @@ class TvSeries(FPTScraper):
                 except:
                     title = "nd"
 
-                if title == season_title:
+                if title == season_obj.title:
                     if not self.is_modern_state:
                         content = scraper_lib.get_next_sibling(season)
                     else:
@@ -168,24 +173,3 @@ class TvSeries(FPTScraper):
                     return all_episodes
 
         return None
-
-
-
-
-if __name__ == "__main__":
-    tv_show = TvSeries()
-    res = tv_show.get_fpt_posts('breaking bad')
-    url = res[0]['url']
-    tv_show.scrape(url)
-    tv_show.get_all_season_titles()
-    print(tv_show.get_season_by_number(2))
-
-    print()
-    print()
-
-    tv_show2 = TvSeries()
-    res = tv_show2.get_fpt_posts('mr robot')
-    url = res[0]['url']
-    tv_show2.scrape(url)
-    tv_show2.get_all_season_titles()
-    print(tv_show2.get_season_by_number(2))

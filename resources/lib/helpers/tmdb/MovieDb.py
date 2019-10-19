@@ -1,4 +1,6 @@
 import requests
+from resources.lib.models.movie import Movie
+from resources.lib.models.tvShow import TvShow
 
 class MovieDb:
 
@@ -173,27 +175,24 @@ class MovieDb:
 
     def _get_movie_result(self, tmdb_url):
         result = requests.get(tmdb_url).json()
-
-        return list(map(
-                lambda x: {
-                        "titolo":x["title"],
-                        "trama":x["overview"],
-                        "anno":x.get("release_date", '-').split('-')[0],
-                        "genere":x["genre_ids"],
-                        "poster":x["poster_path"]
-                        },
-                        result['results']))
+        movies = []
+        for x in result["results"]:
+            movie = Movie(title=x["title"])
+            movie.overview = x["overview"]
+            movie.release_date = x.get("release_date", '-').split('-')[0]
+            movie.image_url = x["poster_path"]
+            movies.append(movie)
+        
+        return movies
 
     def _get_tv_result(self, tmdb_url):
-        
         result = requests.get(tmdb_url).json()
-
-        return list(map(
-                lambda x: {
-                        "titolo":x["name"],
-                        "trama":x["overview"],
-                        "anno":x.get("first_air_date", '-').split('-')[0],
-                        "genere":x["genre_ids"],
-                        "poster":x["poster_path"]
-                        },
-                        result['results']))
+        tvshows = []
+        for x in result["results"]:
+            tvshow = TvShow(title=x["name"])
+            tvshow.overview = x["overview"]
+            tvshow.release_date = x.get("first_air_date", '-').split('-')[0]
+            tvshow.image_url = x["poster_path"]
+            tvshows.append(tvshow)
+        
+        return tvshows

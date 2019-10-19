@@ -1,32 +1,32 @@
-
 from resources.lib import kodiutilsitem
+from resources.lib.models.movie import Movie
 
-def show_fpt_results(posts_data, media_type):
+def show_fpt_results(movies, media_type):
     """
     Show all movies/tv shows scraped
-    :param posts_data: list of dictionaries representing scraped info
+    :param posts_data: list of Movie objects
     :param media_type: str
     """
     is_folder = True
-    for post in posts_data:
+    for movie in movies:
         item_url = {
             'mode': media_type,
-            '0': post["title"].encode("utf-8"),
-            '1': post["url"]
+            '0': movie.title.encode("utf-8"),
+            '1': movie.page_url
             }
 
-        item_title = u''.join(post["title"]).encode("utf-8").strip()
+        item_title = u''.join(movie.title).encode("utf-8").strip()
       
         item_arts = {
-            'thumb': post["image"],
-            'fanart': post["image"]
+            'thumb': movie.image_url,
+            'fanart': movie.image_url
             }
         kodiutilsitem.add_item(url_dict=item_url, title=item_title,
             is_folder=is_folder, arts=item_arts)
         
     kodiutilsitem.end_directory()
 
-def show_scraped_url(movie_title, movie_urls):
+def show_scraped_url(movie):
     """
     Show playable items with all streaming options for the selected movie.
 
@@ -34,7 +34,9 @@ def show_scraped_url(movie_title, movie_urls):
     :param movie_urls: list of strings representing movie url
     """
     is_folder = False
-    for movie_url in movie_urls:
+    movie_title = movie.title
+
+    for movie_url in movie.urls:
         streaming_source = kodiutilsitem.get_streaming_source_name(movie_url)
 
         item_url = {

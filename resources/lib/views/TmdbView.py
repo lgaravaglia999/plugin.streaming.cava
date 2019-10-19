@@ -1,5 +1,8 @@
 from resources.lib import kodiutilsitem
-from resources.lib.models.tmdb.MovieDb import MovieDb
+from resources.lib.helpers.tmdb.MovieDb import MovieDb
+from resources.lib.models.tvShow import TvShow
+from resources.lib.models.movie import Movie
+
 
 NEXT_PAGE = "Next Page --->"
 tmdb = MovieDb()
@@ -8,7 +11,7 @@ def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
     """
     Show movies or tv shows got from the themoviedb api request.
     
-    :param results: list of dictionaries representing themoviedb api request's results
+    :param results: list of Movies or TvShow objects
     :param media_type: str represent movie or tv show type (used for routing)
     :param tmdb_type: str represent mode for paginations
     :param page: int
@@ -19,20 +22,19 @@ def show_moviedb_results(results, media_type, tmdb_type, page=1, keyword=None):
     for media in results:
         item_url = {
             'mode': media_type,
-            '0': media["titolo"].encode("utf-8"),
-            #'year': media["anno"],
+            '0': media.title.encode("utf-8"),
             }
         
-        item_title = media["titolo"].encode("utf-8")
+        item_title = media.title.encode("utf-8")
 
         item_arts = {
-            'thumb': tmdb.MOVIEDB_IMAGE_URL.format('500', media["poster"]),
-            'fanart': tmdb.MOVIEDB_IMAGE_URL.format('500', media["poster"])
+            'thumb': tmdb.MOVIEDB_IMAGE_URL.format('500', media.image_url),
+            'fanart': tmdb.MOVIEDB_IMAGE_URL.format('500', media.image_url)
             }
         
-        item_info = {'title': media["titolo"].encode('utf-8'),
-                    'plot': media["trama"].encode('utf-8'),
-                    'year': media["anno"],
+        item_info = {'title': media.title.encode('utf-8'),
+                    'plot': media.overview.encode('utf-8'),
+                    'year': media.release_date,
                     'mediatype': 'movie'
                     }
         

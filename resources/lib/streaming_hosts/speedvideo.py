@@ -11,6 +11,10 @@ def return_first_regroup(pattern, text):
         return 'n'
 
 def get_stream_url(url):
+    #bug filmpertutti 19/10/2019
+    if "speedvideo.nett" in url:
+        url = url.replace("speedvideo.nett", "speedvideo.net")
+
     r = requests.get(url)
     if(r.status_code != 200):
         print("Error getting url")
