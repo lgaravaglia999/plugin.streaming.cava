@@ -171,5 +171,4 @@ class TvSeries(FPTScraper):
 
                     all_episodes = self.get_all_episodes(content)
                     return all_episodes
-
         return None
