@@ -33,16 +33,21 @@ def create_menu():
 	kodiutilsitem.add_menu_item({'mode' : 'menu/genres/list'}, 'Generi')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/people/keyword'}, 'Attori/Cast')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/fpt/keyword'}, 'Titolo esatto')
-	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100),
+	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100)
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/keyword'}, 'Cerca Film')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/most_popular'}, 'Guarda i film piu popolari')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/most_voted'}, 'Guarda i film piu votati')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/now_playing'}, 'Guarda i film in onda al cinema')
-	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100),
+	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100)
 	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/keyword'}, 'Cerca Serie Tv')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/most_popular'}, 'Guarda le Serie Tv piu popolari')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/most_voted'}, 'Guarda le Serie Tv piu votate')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/tvshow/on_air'}, 'Guarda le Serie Tv ancora in corso')
+	
+	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100)
+	kodiutilsitem.add_menu_item({'mode' : 'play_hardcoded'}, 'FILE JSON')
+	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100)
+
 
 	kodiutilsitem.end_directory()
 

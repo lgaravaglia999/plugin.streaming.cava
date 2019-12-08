@@ -53,3 +53,28 @@ def show_scraped_url(movie):
             properties=item_property)
                 
     kodiutilsitem.end_directory()
+
+def show_jsons(movies):
+    """
+    Show movies from json file
+
+    :param movie_title: str
+    :param movie_urls: list of strings representing movie url
+    """
+    is_folder = False
+
+    for movie in movies:
+        item_url = {
+            'mode':'play_direct',
+            '0': movie.title,
+            '1': movie.urls
+            }
+        
+        item_title = "{0}".format(movie.title)
+
+        item_property = {"prop_key": 'IsPlayable', "prop_value": 'true'}
+
+        kodiutilsitem.add_item(url_dict=item_url, title=item_title, is_folder=is_folder,
+            properties=item_property)
+                
+    kodiutilsitem.end_directory()

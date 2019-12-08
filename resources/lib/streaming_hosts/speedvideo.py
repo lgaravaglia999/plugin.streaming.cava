@@ -10,10 +10,20 @@ def return_first_regroup(pattern, text):
     except:
         return 'n'
 
+def get_from_embed(url):
+    r = requests.get(url)
+    stream_url = return_first_regroup('var linkfile ="(.*)";', r.text)
+    result = requests.get(stream_url, allow_redirects=False, timeout=10, stream=True)
+    source_url_mp4 = result.headers["Location"]
+    return source_url_mp4
+
 def get_stream_url(url):
     #bug filmpertutti 19/10/2019
     if "speedvideo.nett" in url:
         url = url.replace("speedvideo.nett", "speedvideo.net")
+
+    if "embed" in url:
+        return get_from_embed(url)
 
     r = requests.get(url)
     if(r.status_code != 200):
