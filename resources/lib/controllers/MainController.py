@@ -1,9 +1,13 @@
 from resources.lib import kodiutilsitem
 from resources.lib.helpers.common import common
 from resources.lib.views import MovieView
+from resources.lib.views import SelectWebsiteView
 from resources.lib.streaming_hosts import speedvideo, openload
 from resources.lib import kodiplayer
 
+def select_website(title):
+    websites = ["fpt", "hdcloud"]
+    SelectWebsiteView.show_websites(websites, title)
 
 def play(title, streaming_url):
     streaming_source_name = kodiutilsitem.get_streaming_source_name(streaming_url)
