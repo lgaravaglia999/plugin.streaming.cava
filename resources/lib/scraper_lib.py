@@ -61,8 +61,12 @@ class Container:
 
 
 
-def get_page_soup(url, timeout=20):
-    results_page = requests.get(url, timeout=timeout)
+def get_page_soup(url, timeout=20, params=None):
+    if params is None:
+        results_page = requests.get(url, timeout=timeout)
+    else:
+        results_page = requests.get(url, timeout=timeout, params=params)
+
     results = results_page.text
     soup = BeautifulSoup(results, 'html.parser')
     return soup
