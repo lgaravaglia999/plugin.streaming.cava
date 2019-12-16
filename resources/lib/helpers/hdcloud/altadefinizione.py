@@ -7,24 +7,23 @@ class Altadefinizione():
         self.domain = 'https://altadefinizione.cloud/'
         self.search_url = '{0}?s={1}'
 
-    def get_movie(self, title, hdpass_iframe_url):
-        hdload = HDLoad(hdpass_iframe_url)
-        urls = []
-        #TODO: fare metodo get_all su hdload per grabbare tutti url
-        urls.append(hdload.get_final_url("vidoza"))
-        
-        movie = Movie(title, urls)
-        return movie
+    def get_playable_url(self, title, hd_iframe, player_name="vidoza"):
+        hdload = HDLoad(hd_iframe)
+        return hdload.get_final_url(player_name)
 
-    def get_streaming_urls(self, title, movie_url):
+    def get_players(self, title, hdpass_iframe_url):
+        hdload = HDLoad(hdpass_iframe_url)
+        players = hdload.get_all_players()
+        return Movie(title=title, page_url=hdpass_iframe_url ,urls=players)
+
+    def get_hdload_frame(self, title, movie_url):
         altadefinizione_page = scraper_lib.get_page_soup(movie_url)
 
         hdpass_iframe = scraper_lib.Element(altadefinizione_page,
             'iframe', el_id='iframeVid').get_element()
 
         hdpass_iframe_url = hdpass_iframe["src"]
-        movie = Movie(title, hdpass_iframe_url)
-        return movie
+        return hdpass_iframe_url
 
     def get_search_result(self, keyword):
         search_result = scraper_lib.get_page_soup(self.search_url.format(self.domain, keyword))

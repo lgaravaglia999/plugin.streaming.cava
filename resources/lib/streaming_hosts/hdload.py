@@ -10,8 +10,16 @@ class HDLoad():
         self.current_url = hdload_url
         self.embed_value_input_id = "urlEmbed"
 
-    def get_players(self):
-        return
+    def get_all_players(self):
+        players = []
+        hdload_page = scraper_lib.get_page_soup(self.current_url)
+        forms = scraper_lib.Container(hdload_page, 'form').get_container()
+        for form in forms:
+                inputs = scraper_lib.Container(form, 'input').get_container()
+                for inpt in inputs:
+                    if inpt["name"] == "play_chosen":
+                        players.append(inpt["value"])
+        return players
 
     def decode_embed_values(self, embed_val):
         decoded_url = ""

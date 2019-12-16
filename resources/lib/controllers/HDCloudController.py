@@ -2,6 +2,12 @@ from resources.lib.views import MovieView
 from resources.lib.helpers.hdcloud.altadefinizione import Altadefinizione
 from resources.lib.models.movie import Movie
 from resources.lib import kodiutilsitem
+from resources.lib import kodiplayer
+
+def play_hd(title, iframe, player_name):
+    altadefinizione = Altadefinizione()
+    url = altadefinizione.get_playable_url(title, iframe, player_name)
+    kodiplayer.play_video_with_resolver(url)
 
 def show_movies(title):
 	movie_scraper = Altadefinizione()
@@ -10,5 +16,6 @@ def show_movies(title):
 
 def movie_streaming_options(title, url):
 	movie_scraper = Altadefinizione()
-	movie = movie_scraper.get_movie(title, url)
-	MovieView.show_scraped_url(movie)
+	iframe = movie_scraper.get_hdload_frame(title, url)
+	movie = movie_scraper.get_players(title, iframe)
+	MovieView.show_hdplayers(movie)
