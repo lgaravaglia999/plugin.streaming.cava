@@ -1,13 +1,18 @@
 from resources.lib.views import MovieView
 from resources.lib.helpers.hdcloud.altadefinizione import Altadefinizione
+from resources.lib.streaming_hosts.mixdrop import Mixdrop
 from resources.lib.models.movie import Movie
 from resources.lib import kodiutilsitem
 from resources.lib import kodiplayer
 
 def play_hd(title, iframe, player_name):
-    altadefinizione = Altadefinizione()
-    url = altadefinizione.get_playable_url(title, iframe, player_name)
-    kodiplayer.play_video_with_resolver(url)
+	altadefinizione = Altadefinizione()
+	url = altadefinizione.get_playable_url(title, iframe, player_name)
+	if "mixdrop" in url:
+		mixdrop = Mixdrop(url)
+		kodiplayer.play_video(mixdrop.get_final_url())
+	else:
+		kodiplayer.play_video_with_resolver(url)
 
 def show_movies(title):
 	movie_scraper = Altadefinizione()

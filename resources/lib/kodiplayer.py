@@ -43,6 +43,8 @@ def play_video_with_resolver(path):
     vid_url = play_item.getfilename()
     stream_url = resolve_url(vid_url)
     if stream_url:
+        if stream_url.startswith("//"):
+            stream_url = "https:" + stream_url
         play_item.setPath(stream_url)
     #Pass the item to the Kodi player.
     xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)

@@ -63,6 +63,7 @@ def show_hdplayers(movie):
     """
     is_folder = False
     movie_title = movie.title
+    working_urls = ["vidoza", "fembed", "gounlimited", "mixdrop"]
 
     for player_name in movie.urls:
         item_url = {
@@ -71,10 +72,10 @@ def show_hdplayers(movie):
             '1': movie.page_url,
             '2': player_name
             }
-        if player_name == "vidoza" or player_name == "fembed":
-            item_title = "{0} [{1}] ** migliori **".format(movie_title, player_name)
+        if player_name in working_urls:
+            item_title = "{0} [{1}]  ---- potrebbe andare ----".format(movie_title, player_name)
         else:
-            item_title = "{0} [{1}]".format(movie_title, player_name)
+            item_title = "{0} [{1}]  ---- rotto ----".format(movie_title, player_name)
 
         item_property = {"prop_key": 'IsPlayable', "prop_value": 'true'}
 
