@@ -62,12 +62,12 @@ class Mixdrop(object):
     
     def get_final_url(self):
         r = requests.get(self.page)
-        stream_url = self.return_first_regroup('\s+?(eval\(function\(p,a,c,k,e,d\).+)\s+?', r.text)
+        stream_url = self.return_first_regroup('\\s+?(eval\\(function\\(p,a,c,k,e,d\\).+)\\s+?', r.text)
         parameters = stream_url.split('return p')[-1].replace("}(", "").replace("))", "").split(",")
         p, a, c, k, e, d = parameters
 
         #potrei usare eval es: p = eval(p)
-        #ma è pericoloso. potenzialmente potrebbero eseguire codice a loro piacere
+        #ma e' pericoloso. potenzialmente potrebbero eseguire codice a loro piacere
         p = str(p)
         a = int(a)
         c = int(c)
