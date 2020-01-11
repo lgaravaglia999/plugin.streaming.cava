@@ -75,5 +75,5 @@ class Mixdrop(object):
         e = int(e)
         d = json.loads(d)
         unpacked = self.unpack(p, a, c, k, e, d)
-        final_url = self.return_first_regroup('MDCore.vsrc1="(.*)";', unpacked).split('";')[0]
+        final_url = self.return_first_regroup('MDCore.furl="(.*)";', unpacked).split('";')[0]
         return "https:" + final_url
