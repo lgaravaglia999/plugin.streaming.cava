@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests
+import cfscrape
 
 class Element:
     def __init__(self, block, el_tag, el_id=None, el_class=None,
@@ -61,12 +61,13 @@ class Container:
 
 
 
-def get_page_soup(url, timeout=20, params=None):
-    if params is None:
-        results_page = requests.get(url, timeout=timeout)
-    else:
-        results_page = requests.get(url, timeout=timeout, params=params)
-
+def get_page_soup(url, timeout=20, params=None, nretry=1):
+    sess = cfscrape.create_scraper(delay=7)  # returns a CloudflareScraper instance
+    for i in range(nretry):
+        if params is None:
+            results_page = sess.get(url)
+        else:
+            results_page = sess.get(url, params=params)
     results = results_page.text
     soup = BeautifulSoup(results, 'html.parser')
     return soup

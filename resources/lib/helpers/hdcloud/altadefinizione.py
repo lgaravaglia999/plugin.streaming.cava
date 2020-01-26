@@ -26,7 +26,7 @@ class Altadefinizione():
         return hdpass_iframe_url
 
     def get_search_result(self, keyword):
-        search_result = scraper_lib.get_page_soup(self.search_url.format(self.domain, keyword))
+        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword), nretry=2)
         movies_list = []
 
         movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-3 col-xs-3').get_container()
@@ -36,8 +36,12 @@ class Altadefinizione():
         return movies_list
 
     def __get_post_info(self, fpt_post):
-        post_title = scraper_lib.Element(block=fpt_post, el_tag="h5",
-            el_class="titleFilm", get_text=True).get_element()
+        try:
+            post_title = scraper_lib.Element(block=fpt_post, el_tag="h5",
+                el_class="titleFilm", get_text=True).get_element()
+        except:
+            post_title = scraper_lib.Element(block=fpt_post, el_tag="h2",
+                el_class="titleFilm", get_text=True).get_element()            
 
         post_ref_url = scraper_lib.Element(block=fpt_post, el_tag="a",
             el_property="href").get_element()
