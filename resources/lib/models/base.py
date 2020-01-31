@@ -3,6 +3,7 @@ class Base(object):
         self._title = title
         self._overview = ""
         self._image_url = ""
+        self.html_block = ""
         self._release_date = 1900
 
     @property
@@ -16,6 +17,10 @@ class Base(object):
     @property
     def image_url(self):
         return self._image_url
+
+    @property
+    def html_block(self):
+        return self.html_block
 
     @property
     def release_date(self):
@@ -32,6 +37,10 @@ class Base(object):
     @image_url.setter
     def image_url(self, img_url):
         self._image_url = img_url
+
+    @html_block.setter
+    def html_block(self, html_block):
+        self._image_url = html_block
 
     @release_date.setter
     def release_date(self, rls_date):

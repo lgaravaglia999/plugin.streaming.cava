@@ -58,16 +58,18 @@ class Container:
             wrappers = self.block.find_all(self.tag, attrs=cont_attrs, recursive=self.recursive, text=self.text)
         return wrappers
 
+def get_cf_session():
+    return cfscrape.create_scraper(delay=7)
 
-
-
-def get_page_soup(url, timeout=20, params=None, nretry=1):
-    sess = cfscrape.create_scraper(delay=7)  # returns a CloudflareScraper instance
+def get_page_soup(url, timeout=20, params=None, sess=None, nretry=1):
+    if sess is None:
+        sess = cfscrape.create_scraper(delay=7)
     for i in range(nretry):
         if params is None:
             results_page = sess.get(url)
         else:
             results_page = sess.get(url, params=params)
+
     results = results_page.text
     soup = BeautifulSoup(results, 'html.parser')
     return soup

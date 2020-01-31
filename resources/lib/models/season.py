@@ -2,12 +2,12 @@ import sys
 from base import Base
 
 class Season(Base):
-    def __init__(self, title, season_no,  tv_title="", episodes_number=None):
+    def __init__(self, title, season_no,  tv_title="", episodes_number=None, html_block=None):
 
         if sys.version_info[0] < 3:
-            super(Season, self).__init__(title)
+            super(Season, self).__init__(title=title, html_block=html_block)
         else:
-            super().__init__(title)
+            super().__init__(title=title, html_block=html_block)
 
         self._tv_title = tv_title
         self._season_no = season_no
