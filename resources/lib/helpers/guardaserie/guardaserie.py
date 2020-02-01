@@ -4,7 +4,7 @@ from resources.lib.models.episode import Episode
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'https://guardaserie.media/'
+        self.domain = 'http://guardaserie.media/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
@@ -17,6 +17,7 @@ class GuardaSerie():
         return urls
 
     def get_episodes(self, page):
+        page = scraper_lib.get_soup(page)
         episodes = []
 
         episodes_block = scraper_lib.Container(page, tag="a",
@@ -45,16 +46,15 @@ class GuardaSerie():
 
     def get_search_result(self, keyword):
         self.cf_session = scraper_lib.get_cf_session()
-        scraper_lib.get_page_soup(url=self.domain, sess=self.cf_session) #evade cf
-        
+
         search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword),
-            sess=self.cf_session)
+            sess=self.cf_session, https=False)
 
         tvshow = scraper_lib.Container(block=search_result, tag='div', first=True,
             container_class='col-xs-6 col-sm-2-5').get_container()
         
         info = self.__get_post_info(tvshow)
-        return self.get_seasons(scraper_lib.get_page_soup(info["url"], sess=self.cf_session))
+        return self.get_seasons(scraper_lib.get_page_soup(info["url"], sess=self.cf_session, https=False))
 
     def __get_post_info(self, fpt_post):
         post_title = scraper_lib.Element(block=fpt_post, el_tag="div",
