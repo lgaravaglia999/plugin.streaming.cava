@@ -1,7 +1,10 @@
 # plugin.streaming.cava
 
 ### Info
-Un addon di Kodi che accede ai contenuti del sito di streaming filmpertutti. Permettendo di vedere in streaming film e/o serie tv.
+Un addon di Kodi permette di vedere in streaming film e/o serie tv.\
+
+### Dipendenze
+E' necessario aver installato nodejs e cfscraper.
 
 ### Features
 ✔ Ricerca di serie tv e film per titolo.\
@@ -9,4 +12,4 @@ Un addon di Kodi che accede ai contenuti del sito di streaming filmpertutti. Per
 ✔ Scegliere tra i film o serie tv più recenti(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
 ✔ Scegliere tra i film o serie tv più votate(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
 ✔ Ricerca di film in base al cast(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
-✔ Ricerca di film in base al genere(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
+✔ Ricerca di film in base al genere(basato sui dati di [themoviedb](https://www.themoviedb.org/)).
