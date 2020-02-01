@@ -61,7 +61,7 @@ class Container:
 def get_cf_session():
     return cfscrape.create_scraper(delay=7)
 
-def get_page_soup(url, timeout=20, params=None, sess=None, nretry=1, https=True):
+def get_cf_page_soup(url, timeout=20, params=None, sess=None, nretry=1, https=True):
     old_url = url
     url = url.replace("http:", "https:") if not https else url
 
@@ -76,6 +76,17 @@ def get_page_soup(url, timeout=20, params=None, sess=None, nretry=1, https=True)
     r = sess.get(old_url if not https else url)
     results = r.text.encode("utf-8")
 
+    soup = BeautifulSoup(results, 'html.parser')
+    return soup
+
+def get_page_soup(url, timeout=20, params=None):
+    sess = cfscrape.create_scraper()
+    if params is None:
+        results_page = sess.get(url, timeout=timeout)
+    else:
+        results_page = sess.get(url, timeout=timeout, params=params)
+
+    results = results_page.text
     soup = BeautifulSoup(results, 'html.parser')
     return soup
 

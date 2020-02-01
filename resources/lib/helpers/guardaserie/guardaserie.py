@@ -47,14 +47,14 @@ class GuardaSerie():
     def get_search_result(self, keyword):
         self.cf_session = scraper_lib.get_cf_session()
 
-        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword),
+        search_result = scraper_lib.get_cf_page_soup(url=self.search_url.format(self.domain, keyword),
             sess=self.cf_session, https=False)
 
         tvshow = scraper_lib.Container(block=search_result, tag='div', first=True,
             container_class='col-xs-6 col-sm-2-5').get_container()
         
         info = self.__get_post_info(tvshow)
-        return self.get_seasons(scraper_lib.get_page_soup(info["url"], sess=self.cf_session, https=False))
+        return self.get_seasons(scraper_lib.get_cf_page_soup(info["url"], sess=self.cf_session, https=False))
 
     def __get_post_info(self, fpt_post):
         post_title = scraper_lib.Element(block=fpt_post, el_tag="div",
