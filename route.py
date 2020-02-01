@@ -32,7 +32,8 @@ def route(urls, mode, kwargs):
 def create_menu():
 	kodiutilsitem.add_menu_item({'mode' : 'menu/genres/list'}, 'Generi')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/people/keyword'}, 'Attori/Cast')
-	kodiutilsitem.add_menu_item({'mode' : 'menu/keyword_websites'}, 'Cerca Film')	
+	kodiutilsitem.add_menu_item({'mode' : 'menu/keyword_tv_websites'}, 'Cerca Serie TV')	
+	kodiutilsitem.add_menu_item({'mode' : 'menu/keyword_websites'}, 'Cerca Film')
 	kodiutilsitem.add_menu_item({'mode': ''}, "-"*100)
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/keyword'}, 'Cerca Film (TMDB)')
 	kodiutilsitem.add_menu_item({'mode' : 'menu/movies/most_popular'}, 'Guarda i film piu popolari')

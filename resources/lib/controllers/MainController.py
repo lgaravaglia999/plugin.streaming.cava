@@ -9,11 +9,21 @@ def select_website(title):
     websites = ["fpt", "hdcloud"]
     SelectWebsiteView.show_websites(websites, title)
 
+def select_tv_from_website(title):
+    websites = ["gs", "tvshow_fpt"]
+    SelectWebsiteView.show_websites(websites, title)
+
 def search_from_websites(keyword=None):
 	if keyword is None:
 		keyword = kodiutilsitem.user_input()
     
 	select_website(keyword)
+
+def search_tv_from_websites(keyword=None):
+	if keyword is None:
+		keyword = kodiutilsitem.user_input()
+    
+	select_tv_from_website(keyword)
 
 def play(title, streaming_url):
     streaming_source_name = kodiutilsitem.get_streaming_source_name(streaming_url)

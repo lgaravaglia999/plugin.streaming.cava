@@ -2,16 +2,17 @@ import sys
 from base import Base
 
 class Episode(Base):
-    def __init__(self, title, urls, episode_no, season_no=None, html_block=None):
+    def __init__(self, title, urls, episode_no, season_no=None, html_block=""):
 
         if sys.version_info[0] < 3:
-            super(Episode, self).__init__(title=title, html_block=html_block)
+            super(Episode, self).__init__(title=title)
         else:
-            super().__init__(title=title, html_block=html_block)
+            super().__init__(title=title)
 
         self._urls = urls
         self._episode_no = episode_no
         self._season_no = season_no
+        self.html_block = html_block
 
     @property
     def urls(self):
