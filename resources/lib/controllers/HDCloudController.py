@@ -1,4 +1,4 @@
-from resources.lib.views import MovieView
+from resources.lib.views.HDMovieView import HDMovieView
 from resources.lib.helpers.hdcloud.altadefinizione import Altadefinizione
 from resources.lib.streaming_hosts.mixdrop import Mixdrop
 from resources.lib.models.movie import Movie
@@ -17,10 +17,10 @@ def play_hd(title, iframe, player_name):
 def show_movies(title):
 	movie_scraper = Altadefinizione()
 	movies = movie_scraper.get_search_result(title)
-	MovieView.show_fpt_results(movies, 'hdcloud/movies')
+	HDMovieView().show_fpt_results(movies)
 
 def movie_streaming_options(title, url):
 	movie_scraper = Altadefinizione()
 	iframe = movie_scraper.get_hdload_frame(title, url)
 	movie = movie_scraper.get_players(title, iframe)
-	MovieView.show_hdplayers(movie)
+	HDMovieView().show_hdplayers(movie)

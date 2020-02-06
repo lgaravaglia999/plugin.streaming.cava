@@ -5,5 +5,5 @@ base_path = "hdcloud"
 URLS = [
     {"play_hd": HDCloudController.play_hd},
     {base_path: HDCloudController.show_movies},
-    {"{0}/movies".format(base_path): HDCloudController.movie_streaming_options}
+    {"{0}/selected_movie".format(base_path): HDCloudController.movie_streaming_options}
 ]

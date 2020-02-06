@@ -4,7 +4,7 @@ base_path = "fpt"
 URLS = [
     {base_path: MovieController.fpt_movie},
     {'menu/fpt/keyword': MovieController.fpt_exact_name},
-    {'movies/fpt_movie': MovieController.movie_streaming_options},
+    {'{0}/selected_movie': MovieController.movie_streaming_options},
 	{'tmdb_tvshow': TvShowController.fpt_tvshow},
     {'tvshow/fpt_tv': TvShowController.fpt_seasons},
     {'tvshow_fpt': TvShowController.fpt_tvshow},

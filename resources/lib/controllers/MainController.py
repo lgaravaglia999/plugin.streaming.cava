@@ -1,6 +1,6 @@
 from resources.lib import kodiutilsitem
 from resources.lib.helpers.common import common
-from resources.lib.views import MovieView
+from resources.lib.views.MovieView import MovieView
 from resources.lib.views import SelectWebsiteView
 from resources.lib.streaming_hosts import speedvideo, openload
 from resources.lib import kodiplayer
@@ -52,6 +52,6 @@ def play_direct(title, streaming_url):
 
 def get_json_movies():
     movies = common.load_movies_from_json()
-    MovieView.show_jsons(movies)
+    MovieView("json").show_jsons(movies)
 
    

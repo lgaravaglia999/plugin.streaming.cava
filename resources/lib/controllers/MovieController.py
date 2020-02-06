@@ -1,4 +1,4 @@
-from resources.lib.views import MovieView
+from resources.lib.views.FPTMovieView import FPTMovieView
 from resources.lib.helpers.filmpertutti.Movies import Movies
 from resources.lib.models.movie import Movie
 from resources.lib import kodiutilsitem
@@ -9,7 +9,7 @@ def fpt_movie(title):
 	if movies is None:
 		fpt_exact_name(title)
 	else:
-		MovieView.show_fpt_results(movies, 'movies/fpt_movie')
+		FPTMovieView().show_fpt_results(movies)
 
 def fpt_exact_name(keyword=None):
 	movie_scraper = Movies()
@@ -19,10 +19,10 @@ def fpt_exact_name(keyword=None):
 	direct_url = movie_scraper.get_by_exact_name(keyword)
 	movie = movie_scraper.get_movie(keyword, direct_url)
 
-	MovieView.show_scraped_url(movie)
+	FPTMovieView().show_scraped_url(movie)
 
 def movie_streaming_options(title, url):
 	movie_scraper = Movies()
 	movie = movie_scraper.get_movie(title, url)
-	MovieView.show_scraped_url(movie)
+	FPTMovieView().show_scraped_url(movie)
 
