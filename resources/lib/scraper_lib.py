@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import cfscrape
+import cloudscraper
 
 class Element:
     def __init__(self, block, el_tag, el_id=None, el_class=None,
@@ -59,35 +59,15 @@ class Container:
         return wrappers
 
 def get_cf_session():
-    return cfscrape.create_scraper(delay=7)
+    return cloudscraper.create_scraper()
 
-def get_cf_page_soup(url, timeout=20, params=None, sess=None, nretry=1, https=True):
-    old_url = url
-    url = url.replace("http:", "https:") if not https else url
-
+def get_page_soup(url, timeout=20, params=None, sess=None):
     if sess is None:
-        sess = cfscrape.create_scraper(delay=7)
-    for i in range(nretry):
-        if params is None:
-            results_page = sess.get(url, allow_redirects=False)
-        else:
-            results_page = sess.get(url, params=params, allow_redirects=False)
-
-    r = sess.get(old_url if not https else url)
-    results = r.text.encode("utf-8")
-
-    soup = BeautifulSoup(results, 'html.parser')
-    return soup
-
-def get_page_soup(url, timeout=20, params=None):
-    sess = cfscrape.create_scraper()
-    if params is None:
-        results_page = sess.get(url, timeout=timeout)
+        scraper = cloudscraper.create_scraper()
     else:
-        results_page = sess.get(url, timeout=timeout, params=params)
-
-    results = results_page.text
-    soup = BeautifulSoup(results, 'html.parser')
+        scraper = sess
+    res = scraper.get(url)
+    soup = BeautifulSoup(res.text.encode("utf-8"), 'html.parser')
     return soup
 
 def get_soup(page):

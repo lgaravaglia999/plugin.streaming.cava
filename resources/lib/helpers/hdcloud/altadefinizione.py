@@ -26,7 +26,8 @@ class Altadefinizione():
         return hdpass_iframe_url
 
     def get_search_result(self, keyword):
-        search_result = scraper_lib.get_cf_page_soup(url=self.search_url.format(self.domain, keyword), nretry=2)
+        keyword = keyword.replace(" ", "+")
+        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword))
         movies_list = []
 
         movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-3 col-xs-3').get_container()

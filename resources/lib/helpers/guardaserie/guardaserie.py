@@ -1,10 +1,11 @@
 from resources.lib import scraper_lib
 from resources.lib.models.season import Season
 from resources.lib.models.episode import Episode
+import time
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'http://guardaserie.media/'
+        self.domain = 'https://guardaserie.media/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
@@ -45,16 +46,18 @@ class GuardaSerie():
         return season_lst
 
     def get_search_result(self, keyword):
+        keyword = keyword.replace(" ", "+")
         self.cf_session = scraper_lib.get_cf_session()
 
-        search_result = scraper_lib.get_cf_page_soup(url=self.search_url.format(self.domain, keyword),
-            sess=self.cf_session, https=False)
+        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword),
+            sess=self.cf_session)
 
         tvshow = scraper_lib.Container(block=search_result, tag='div', first=True,
             container_class='col-xs-6 col-sm-2-5').get_container()
         
         info = self.__get_post_info(tvshow)
-        return self.get_seasons(scraper_lib.get_cf_page_soup(info["url"], sess=self.cf_session, https=False))
+        time.sleep(2)
+        return self.get_seasons(scraper_lib.get_page_soup(info["url"], sess=self.cf_session))
 
     def __get_post_info(self, fpt_post):
         post_title = scraper_lib.Element(block=fpt_post, el_tag="div",
