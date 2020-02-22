@@ -64,7 +64,7 @@ def get_all_module_routers():
 			router_name = 'resources.lib.router_urls.' + p_file.split('.')[0]
 			router_urls.extend(importlib.import_module(router_name).URLS)
 
-	xbmc.log(', '.join(str(url) for url in router_urls), xbmc.LOGNOTICE)
+	#xbmc.log(', '.join(str(url) for url in router_urls), xbmc.LOGNOTICE)
 	return router_urls
 
 

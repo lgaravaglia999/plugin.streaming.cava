@@ -6,7 +6,7 @@ from resources.lib import kodiutilsitem
 def fpt_tvshow(title):
 	tv_show = TvSeries()
 	tvshows = tv_show.get_result_from_fpt(title)
-	FPTtvShowView().show_tvshows_results(tvshows, 'tvshow/fpt_tv')
+	FPTtvShowView().show_tvshows_results(tvshows)
 
 def fpt_seasons(tvshow_title, page_url):
 	tv_series = TvSeries()

@@ -10,7 +10,7 @@ class TvShowView(object):
         self.on_episode_click = "{0}/selected_episode".format(website)
         self.on_playable_urls_click = "play"
 
-    def show_tvshows_results(self, tvshows, media_type):
+    def show_tvshows_results(self, tvshows):
         """
         Show all movies/tv shows scraped
         :param tvshows: list of TvShow objects
@@ -19,7 +19,7 @@ class TvShowView(object):
         is_folder = True
         for tvshow in tvshows:
             item_url = {
-                'mode': media_type,
+                'mode': self.on_selected_tvshow,
                 '0': tvshow.title.encode("utf-8"),
                 '1': tvshow.page_url
                 }
