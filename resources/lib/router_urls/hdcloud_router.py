@@ -1,6 +1,8 @@
 from resources.lib.controllers import HDCloudController
+from websites_config import WebsitesConfig as cfg
 
-base_path = "hdcloud"
+#base_path = "hdcloud"
+base_path = cfg.get_path(cfg.ALTADEFINIZIONE)
 
 URLS = [
     {"play_hd": HDCloudController.play_hd},

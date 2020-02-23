@@ -1,5 +1,8 @@
 from resources.lib.controllers import GuardaserieController
-base_path = "gs"
+from websites_config import WebsitesConfig as cfg
+
+#base_path = "gs"
+base_path = cfg.get_path(cfg.GUARDASERIE)
 
 URLS = [
     {base_path: GuardaserieController.gs_tvshow_list},

@@ -4,13 +4,15 @@ from resources.lib.views.MovieView import MovieView
 from resources.lib.views import SelectWebsiteView
 from resources.lib.streaming_hosts import speedvideo, openload
 from resources.lib import kodiplayer
+from resources.lib.router_urls.websites_config import WebsitesConfig as cfg
+
 
 def select_website(title):
-    websites = ["fpt", "hdcloud"]
+    websites = cfg.get_all_movies()
     SelectWebsiteView.show_websites(websites, title)
 
 def select_tv_from_website(title):
-    websites = ["gs", "tvshow_fpt"]
+    websites = cfg.get_all_tvshow()
     SelectWebsiteView.show_websites(websites, title)
 
 def search_from_websites(keyword=None):
