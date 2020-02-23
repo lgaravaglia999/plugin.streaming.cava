@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import cloudscraper
+from resources.lib import cloudscraper
 
 class Element:
     def __init__(self, block, el_tag, el_id=None, el_class=None,
@@ -61,11 +61,10 @@ class Container:
 def get_cf_session():
     return cloudscraper.create_scraper()
 
-def get_page_soup(url, timeout=20, params=None, sess=None):
-    if sess is None:
-        scraper = cloudscraper.create_scraper()
-    else:
-        scraper = sess
+def get_page_soup(url, timeout=20, params=None, scraper=None):
+    if scraper is None:
+        scraper = get_cf_session()
+
     res = scraper.get(url)
     soup = BeautifulSoup(res.text.encode("utf-8"), 'html.parser')
     return soup

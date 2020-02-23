@@ -5,7 +5,7 @@ import time
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'https://guardaserie.media/'
+        self.domain = 'http://guardaserie.movie/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
@@ -48,16 +48,16 @@ class GuardaSerie():
     def get_search_result(self, keyword):
         keyword = keyword.replace(" ", "+")
         self.cf_session = scraper_lib.get_cf_session()
-
+        
         search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword),
-            sess=self.cf_session)
+            scraper=self.cf_session)
 
         tvshow = scraper_lib.Container(block=search_result, tag='div', first=True,
             container_class='col-xs-6 col-sm-2-5').get_container()
         
         info = self.__get_post_info(tvshow)
-        time.sleep(2)
-        return self.get_seasons(scraper_lib.get_page_soup(info["url"], sess=self.cf_session))
+        time.sleep(1)
+        return self.get_seasons(scraper_lib.get_page_soup(info["url"], scraper=self.cf_session))
 
     def __get_post_info(self, fpt_post):
         post_title = scraper_lib.Element(block=fpt_post, el_tag="div",
