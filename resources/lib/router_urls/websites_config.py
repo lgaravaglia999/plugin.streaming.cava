@@ -15,6 +15,10 @@ class WebsitesConfig(object):
 
     GUARDASERIE = {"name": "Guardaserie", "base_path": "gs", "is_movie": False}
 
+    ITALIASERIE_ORG = {"name": "ITALIASERIE ORG", "base_path": "italiaserie_org",
+                            "is_movie": False}
+
+
     @staticmethod
     def get_name(website):
         return website["name"]
