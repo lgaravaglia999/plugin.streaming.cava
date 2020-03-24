@@ -5,7 +5,7 @@ import time
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'http://guardaserie.movie/'
+        self.domain = 'http://guardaserie.productions/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
@@ -69,12 +69,3 @@ class GuardaSerie():
         image = "n.d."
 
         return {"title": post_title, "url": post_ref_url, "image": image}
-    
-
-
-
-# gs = GuardaSerie()
-# res = gs.get_search_result("rick e morty")
-# episodes = gs.get_episodes(res[2].html_block)
-# print(episodes)
-#print(res)

@@ -8,10 +8,10 @@ class FPTScraper(object):
     def __init__(self, release_date=None):
         self.release_date = release_date
 
-        self.url_check_domain = "https://www.filmpertutti.group/"
+        self.url_check_domain = "https://filmpertutti.nuovo.live/"
         self.filmpertutti_url = "{0}/?s={1}"
 
-        self.default_domain = "https://www.filmpertutti.date"
+        self.default_domain = "https://www.filmpertutti.blog"
         self.domain = self.get_filmpertutti_domain()
 
         self.streaming_to_scrape = ["speedvideo", "openload", "rapidcrypt.net/open"]
