@@ -3,8 +3,6 @@
 ### Info
 Un addon di Kodi permette di vedere in streaming film e/o serie tv.\
 
-### Dipendenze
-E' necessario aver installato nodejs e cfscraper.
 
 ### Features
 ✔ Ricerca di serie tv e film per titolo.\
