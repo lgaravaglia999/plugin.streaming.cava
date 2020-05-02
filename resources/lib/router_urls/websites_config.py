@@ -18,6 +18,9 @@ class WebsitesConfig(object):
     ITALIASERIE_ORG = {"name": "ITALIASERIE ORG", "base_path": "italiaserie_org",
                             "is_movie": False}
 
+    SERIE_HD = {"name": "Serie HD", "base_path": "seriehd",
+                            "is_movie": False}
+
 
     @staticmethod
     def get_name(website):

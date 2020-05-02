@@ -98,6 +98,10 @@ def get_hrefs(block, filters=None):
             href_list.append(a.get('href').strip())
     return href_list
 
+def get_soup_prettified(block):
+    page = block.prettify()
+    return BeautifulSoup(page, 'html.parser')
+
 
 
 
