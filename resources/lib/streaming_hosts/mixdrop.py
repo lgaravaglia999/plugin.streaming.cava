@@ -1,8 +1,7 @@
 import string
-from bs4 import BeautifulSoup
+from resources.lib import scraper_lib
 import re
 import json
-import requests
 
 class Mixdrop(object):
     def __init__(self, page):
@@ -61,7 +60,7 @@ class Mixdrop(object):
         return p
     
     def get_final_url(self):
-        r = requests.get(self.page)
+        r = scraper_lib.get_page_soup(url=self.page)
         stream_url = self.return_first_regroup('\\s+?(eval\\(function\\(p,a,c,k,e,d\\).+)\\s+?', r.text)
         parameters = stream_url.split('return p')[-1].replace("}(", "").replace("))", "").split(",")
         p, a, c, k, e, d = parameters
