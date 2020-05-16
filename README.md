@@ -12,5 +12,6 @@ Per farlo basta andare in `settings -> file manager -> add source` e inserire do
 Una volta fatto vai in `settings -> Add-ons` clicca su installa add-on da file zip selezionando la sorgente che hai appena aggiunto e installa i seguenti file zip:
 
 - repository.cava-x.x.zip
-- script.module.urlresolver-x.x.xx.zip
+- script.module.urlresolver-x.x.xx.zip (potrebbe metterci anche un minutino ad installare questo modulo)
 
+Infine, una volta installati con successo entrambi gli zip, vai in `settings -> Add-ons -> install from repository -> video add-ons`.
