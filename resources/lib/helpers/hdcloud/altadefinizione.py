@@ -4,7 +4,7 @@ from resources.lib.streaming_hosts.hdload import HDLoad
 
 class Altadefinizione():
     def __init__(self):
-        self.domain = 'https://altadefinizione.studio/'
+        self.domain = 'https://altadefinizione.family/'
         self.search_url = '{0}?s={1}'
 
     def get_playable_url(self, title, hd_iframe, player_name="Vidoza"):
