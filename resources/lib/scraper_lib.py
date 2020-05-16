@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from resources.lib import cloudscraper
+from resources.lib.thirdparty import cloudscraper
 
 class Element:
     def __init__(self, block, el_tag, el_id=None, el_class=None,

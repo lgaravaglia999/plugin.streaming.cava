@@ -5,14 +5,6 @@ from resources.lib.models.episode import Episode
 from resources.lib.streaming_hosts.hdload import HDLoad
 from resources.lib.models.movie import Movie
 
-
-#
-# TODO:
-# - ottenere il testo pulito(togliendo spazi e vari \n);
-# - finire get_season()
-# - fare il binding con i models del plugin(Tvshow, Seasons, Episode)
-
-
 class SerieHD():
     def __init__(self):
         self.domain = 'https://seriehd.net/'

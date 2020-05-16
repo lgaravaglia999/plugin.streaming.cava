@@ -1,11 +1,10 @@
+#thanks to the author: https://github.com/VeNoMouS/cloudscraper
+
 import sys
 import logging
 import abc
 
-try:
-    from ..exceptions import CloudflareSolveError
-except ImportError:
-    pass
+from ..exceptions import CloudflareSolveError
 
 if sys.version_info >= (3, 4):
     ABC = abc.ABC  # noqa
