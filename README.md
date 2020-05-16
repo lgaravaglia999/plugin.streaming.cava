@@ -1,13 +1,16 @@
 # plugin.streaming.cava
 
 ### Info
-Un addon di Kodi permette di vedere in streaming film e/o serie tv.\
+Un addon di Kodi permette di vedere in streaming film e/o serie tv.
 
 
-### Features
-✔ Ricerca di serie tv e film per titolo.\
-✔ Scegliere tra i film o serie tv più popolari(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
-✔ Scegliere tra i film o serie tv più recenti(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
-✔ Scegliere tra i film o serie tv più votate(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
-✔ Ricerca di film in base al cast(basato sui dati di [themoviedb](https://www.themoviedb.org/)).\
-✔ Ricerca di film in base al genere(basato sui dati di [themoviedb](https://www.themoviedb.org/)).
+### Installazione
+Per installare e avere aggiornamenti in automatico su questo add-on dovrai aggiungere una nuova sorgente su kodi.\
+
+Per farlo basta andare in `settings -> file manager -> add source` e inserire dove richiesto questo percorso https://lgaravaglia999.github.io/kodi-repo/repo/.\
+
+Una volta fatto vai in `settings -> Add-ons` clicca su installa add-on da file zip selezionando la sorgente che hai appena aggiunto e installa i seguenti file zip:
+
+- repository.cava-x.x.zip
+- script.module.urlresolver-x.x.xx.zip
+
