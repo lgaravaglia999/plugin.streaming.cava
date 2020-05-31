@@ -5,7 +5,7 @@ import time
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'http://guardaserie.style/'
+        self.domain = 'http://guardaserie.show/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
