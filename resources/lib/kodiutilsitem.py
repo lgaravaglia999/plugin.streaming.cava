@@ -7,7 +7,7 @@ import sys
 
 base_url = sys.argv[0]
 addon_handle = int(sys.argv[1])
-STREAMING_SOURCES = ["speedvideo", "openload", "rapidcrypt"]
+STREAMING_SOURCES = ["speedvideo", "openload", "rapidcrypt", "vcrypt"]
 
 def build_url(query):
     return '{0}?{1}'.format(base_url, urlencode(query))

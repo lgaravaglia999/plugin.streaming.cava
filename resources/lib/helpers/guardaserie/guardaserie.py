@@ -5,7 +5,7 @@ import time
 
 class GuardaSerie():
     def __init__(self):
-        self.domain = 'http://guardaserie.show/'
+        self.domain = 'http://guardaserie.work/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
     
@@ -14,6 +14,9 @@ class GuardaSerie():
 
         urls.append(scraper_lib.Element(block, el_tag="span", el_class="player-overlay",
             el_property="meta-embed").get_element())
+
+        urls.append(scraper_lib.Element(block, el_tag="span", el_class="player-overlay",
+            el_property="meta-embed2").get_element())
 
         return urls
 
