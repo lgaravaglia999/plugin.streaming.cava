@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from resources.lib.thirdparty import cloudscraper
+import requests
 
 class Element:
     def __init__(self, block, el_tag, el_id=None, el_class=None,
@@ -65,7 +66,7 @@ def get_page_soup(url, timeout=20, params=None, scraper=None):
     if scraper is None:
         scraper = get_cf_session()
 
-    res = scraper.get(url)
+    res = requests.get(url, headers=scraper.headers)
     soup = BeautifulSoup(res.text.encode("utf-8"), 'html.parser')
     return soup
 
