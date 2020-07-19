@@ -8,6 +8,7 @@ class Mixdrop(object):
         self.page = page        
         self.dictionaries = {}
         self.digs = string.digits + string.ascii_letters
+        self.mixdrop_domain = "https://mixdrop.co"
 
     def base_10_to_N(self, x, base):
         if x < 0:
@@ -61,6 +62,16 @@ class Mixdrop(object):
     
     def get_final_url(self):
         r = scraper_lib.get_page_soup(url=self.page)
+        
+        try:
+            #nuovo metodo ancora in test
+            pattern = re.compile(r'window.location = "(.*?)";$', re.MULTILINE | re.DOTALL)
+            script = r.find("script", text=pattern)
+            window_location_value = pattern.search(script.text).group(1)
+            r = scraper_lib.get_page_soup(url=self.mixdrop_domain + window_location_value)
+        except:
+            pass
+
         stream_url = self.return_first_regroup('\\s+?(eval\\(function\\(p,a,c,k,e,d\\).+)\\s+?', r.text)
         parameters = stream_url.split('return p')[-1].replace("}(", "").replace("))", "").split(",")
         p, a, c, k, e, d = parameters
