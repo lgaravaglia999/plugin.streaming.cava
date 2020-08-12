@@ -1,4 +1,5 @@
 from resources.lib import scraper_lib
+from resources.lib import google_scraper #soluzione temporanea a cloudfare
 from resources.lib.models.movie import Movie
 from resources.lib.streaming_hosts.hdload import HDLoad
 
@@ -6,6 +7,10 @@ class Altadefinizione():
     def __init__(self):
         self.domain = 'https://altadefinizione.group/'
         self.search_url = '{0}?s={1}'
+
+
+    def get_movie_url_from_google(self, keyword):
+        return google_scraper.get_first_result(keyword, self.domain)
 
     def get_playable_url(self, title, hd_iframe, player_name="Vidoza"):
         hdload = HDLoad(hd_iframe)
@@ -27,7 +32,10 @@ class Altadefinizione():
 
     def get_search_result(self, keyword):
         keyword = keyword.replace(" ", "+")
-        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword))
+        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword), check_result=True)
+        if (search_result == -1):
+            return None
+            
         movies_list = []
 
         movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-3 col-xs-3').get_container()

@@ -19,6 +19,9 @@ def play_hd(title, iframe, player_name):
 def show_movies(title):
 	movie_scraper = Altadefinizione()
 	movies = movie_scraper.get_search_result(title)
+	if (movies is None):
+		#temporaneo per bypassare cf
+		return movie_streaming_options(title, movie_scraper.get_movie_url_from_google(title))
 	HDMovieView().show_fpt_results(movies)
 
 def movie_streaming_options(title, url):

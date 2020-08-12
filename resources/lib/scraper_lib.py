@@ -62,11 +62,15 @@ class Container:
 def get_cf_session():
     return cloudscraper.create_scraper()
 
-def get_page_soup(url, timeout=20, params=None, scraper=None):
+def get_page_soup(url, timeout=20, params=None, scraper=None, check_result=False):
     if scraper is None:
         scraper = get_cf_session()
 
     res = requests.get(url, headers=scraper.headers)
+    
+    if (res.status_code >= 300 and check_result):
+        return -1
+
     soup = BeautifulSoup(res.text.encode("utf-8"), 'html.parser')
     return soup
 
