@@ -31,16 +31,29 @@ class Altadefinizione():
         return hdpass_iframe_url
 
     def get_search_result(self, keyword):
-        keyword = keyword.replace(" ", "+")
-        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword), check_result=True)
-        if (search_result == -1):
-            return None
-            
         movies_list = []
+        raw_keyword = keyword
+        keyword = raw_keyword.replace(" ", "+")
+        search_result = scraper_lib.get_page_soup(url=self.search_url.format(self.domain, keyword), check_result=True)
 
+        if (search_result == -1):
+            result_url = self.get_movie_url_from_google(keyword)
+            search_result = scraper_lib.get_page_soup(url=result_url)
+            
         movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-3 col-xs-3').get_container()
+        
         for movie in movies:
             movies_list.append(self.__get_post_info(movie))
+
+        if (not movies_list):
+            try:
+                title = scraper_lib.Element(block=search_result, el_tag='title', get_text=True).get_element()
+            except:
+                title = raw_keyword
+
+            movie = Movie(title=title, page_url=result_url)
+            movie.image_url = "n.d."
+            movies_list.append(movie)
 
         return movies_list
 
