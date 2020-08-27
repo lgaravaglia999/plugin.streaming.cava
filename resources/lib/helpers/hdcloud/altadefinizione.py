@@ -5,7 +5,7 @@ from resources.lib.streaming_hosts.hdload import HDLoad
 
 class Altadefinizione():
     def __init__(self):
-        self.domain = 'https://altadefinizione.group/'
+        self.domain = 'https://altadefinizione.fitness/'
         self.search_url = '{0}?s={1}'
 
 
