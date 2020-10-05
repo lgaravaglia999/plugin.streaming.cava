@@ -7,7 +7,7 @@ from resources.lib.models.movie import Movie
 
 class SerieHD():
     def __init__(self):
-        self.domain = 'https://seriehd.productions/'
+        self.domain = 'https://seriehd.email/'
         self.search_url = '{0}?s={1}'
         self.cf_session = None
 

@@ -1,5 +1,6 @@
 import string
 from resources.lib import scraper_lib
+from resources.lib.thirdparty import jsunpack
 import re
 import json
 
@@ -33,11 +34,8 @@ class Mixdrop(object):
         return ''.join(digits)
 
     def return_first_regroup(self, pattern, text):
-        try:
-            m = re.search(pattern, text)
-            return m.group(1)
-        except:
-            return 'n'
+        m = re.search(pattern, text)
+        return m.group(1)
 
     def swap_values(self, e):
         return self.dictionaries[e.group(0)]
@@ -59,12 +57,15 @@ class Mixdrop(object):
             if len(k) > i and k[i](str(i)):
                 p = re.sub(r"\b\w+\b", self.swap_values, p)
         return p
+
+    
+    def find_multiple_matches(self, text, pattern):
+        return re.findall(pattern, text, re.DOTALL)
     
     def get_final_url(self):
+        final_url = ""
         r = scraper_lib.get_page_soup(url=self.page)
-        
         try:
-            #nuovo metodo ancora in test
             pattern = re.compile(r'window.location = "(.*?)";$', re.MULTILINE | re.DOTALL)
             script = r.find("script", text=pattern)
             window_location_value = pattern.search(script.text).group(1)
@@ -73,17 +74,11 @@ class Mixdrop(object):
             pass
 
         stream_url = self.return_first_regroup('\\s+?(eval\\(function\\(p,a,c,k,e,d\\).+)\\s+?', r.text)
-        parameters = stream_url.split('return p')[-1].replace("}(", "").replace("))", "").split(",")
-        p, a, c, k, e, d = parameters
+        unpacked = jsunpack.unpack(stream_url)
+        res = self.find_multiple_matches(unpacked, r'MDCore\.\w+\s*=\s*"([^"]+)"')
+        for match in res:
+            if '.mp' in match:
+                final_url = "https:" + match
+                break
 
-        #potrei usare eval es: p = eval(p)
-        #ma e' pericoloso. potenzialmente potrebbero eseguire codice a loro piacere
-        p = str(p)
-        a = int(a)
-        c = int(c)
-        k = k.split(".split")[0].split("|")
-        e = int(e)
-        d = json.loads(d)
-        unpacked = self.unpack(p, a, c, k, e, d)
-        final_url = self.return_first_regroup('MDCore.wurl="(.*)";', unpacked).split('";')[0]
-        return "https:" + final_url
+        return final_url
