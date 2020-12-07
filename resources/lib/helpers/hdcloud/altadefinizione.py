@@ -40,7 +40,7 @@ class Altadefinizione():
             result_url = self.get_movie_url_from_google(keyword)
             search_result = scraper_lib.get_page_soup(url=result_url)
             
-        movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-3 col-xs-3').get_container()
+        movies = scraper_lib.Container(block=search_result, tag='div', container_class='col-lg-3 col-md-4 col-xs-4 mb-30').get_container()
         
         for movie in movies:
             movies_list.append(self.__get_post_info(movie))
